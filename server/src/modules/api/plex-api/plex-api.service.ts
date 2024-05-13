@@ -828,6 +828,36 @@ export class PlexApiService {
     return handleMedia;
   }
 
+  public async getWatched(libraryId: number, dataType: EPlexDataType): Promise<PlexLibraryItem[]> {
+    try {
+      let watchedFilter: string;
+      switch (dataType) {
+        case EPlexDataType.MOVIES:
+        case EPlexDataType.EPISODES:
+          watchedFilter = 'unwatched!=1';
+          break;
+        case EPlexDataType.SHOWS:
+          watchedFilter = 'unwatchedLeaves!=1';
+          break;
+        // seasons does not work. 'unwatchedLeaves' uses the show-level value, and 'unwatched' is true if any episode is watched.
+        case EPlexDataType.SEASONS:
+        default:
+          return undefined;
+      }
+      
+      const response = await this.plexClient.queryAll<PlexLibraryResponse>({
+        uri: `/library/sections/${libraryId}/all?${watchedFilter}&type=${dataType}`,
+      });
+      return response.MediaContainer.Metadata as PlexLibraryItem[];
+    } catch (err) {
+      this.logger.warn(
+        'Plex api communication failure.. Is the application running?',
+      );
+      this.logger.debug(err);
+      return undefined;
+    }
+  }
+
   private async setMachineId() {
     try {
       const response = await this.getStatus();

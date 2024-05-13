@@ -420,6 +420,11 @@ export class PlexGetterService {
 
           return new Date(+lastEpDate * 1000);
         }
+        case 'watched_authenticated_user': {
+          const allWatched = await this.plexApi.getWatched(libItem.librarySectionID, dataType);
+          const isOursWatched = allWatched.some(l => l.ratingKey === metadata.ratingKey);
+          return isOursWatched;
+        }
         default: {
           return null;
         }

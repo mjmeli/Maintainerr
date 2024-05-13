@@ -322,6 +322,16 @@ export class RuleConstants {
           cacheReset: true,
           type: RuleType.TEXT,
         } as Property,
+        {
+          id: 27,
+          name: 'watched_authenticated_user',
+          humanName:
+            'Watched by the authenticated user',
+          mediaType: MediaType.BOTH,
+          showType: [EPlexDataType.SHOWS, EPlexDataType.EPISODES],
+          cacheReset: true,
+          type: RuleType.BOOL,
+        } as Property,
       ],
     },
     {

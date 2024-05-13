@@ -223,6 +223,14 @@ The key is used for identification in Yaml rule files.
 - Availability: seasons, episodes
 - Type: text[]
 
+#### Watched by the authenticated user
+
+> Indicates whether the Plex item is marked as Watched for the authenticated Plex user.
+
+- Key: Plex.watched_authenticated_user
+- Availability: movies, shows, episodes
+- Type: boolean
+
 ### Radarr
 
 #### Date added
